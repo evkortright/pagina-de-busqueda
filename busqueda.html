@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Blogs de ingenieros de Elastic</title>
+
+    <meta charset="UTF-8">
+    <meta name="description" content="Sample search page">
+    <meta name="keywords" content="HTML, CSS, JavaScript, Bootstrap, search, Elasticsearch">
+    <meta name="author" content="Enrique V. Kortright">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+  </head>
+  <body>
+    <div class="jumbotron text-center bg-cover"
+      style="background-image: linear-gradient(to bottom, rgba(255,255,255,0.6) 0%,rgba(255,255,255,0.9) 100%), url(elastic.jpg)"
+    >
+      <h1>Blogs de ingenieros de Elastic</h1>
+      <p><em class="text-muted">La mejor información sobre el increíble Elastic Stack a su alcance ...</em></p>
+    </div>
+
+    <div class='container'>
+      <form>
+        Términos:<br />
+        <input type="text" name="keyword" id='keyword' onkeyup="callREST()" />
+      </form>
+      <div class='container-fluid' id="response"></div>
+    </container>
+
+    <script>
+      function resultsToHTML(results) {
+        var html = '<br/><p class="text-info"><em>Numero de resultados: ' + results.hits.total.value + '</em></br>';
+
+        var A = [1, 2, 3];
+        for (a of A) {
+          console.log(a);
+        }
+        for (result of results.hits.hits) {
+          html = html +
+          // '<div class="row"><div class="col-sm-8" style="background-color:lavender;">' +
+          // result.highlight.title +
+          // '</div><div class="col-sm-4" style="background-color:lavenderblush;">' +
+          // result._source.author +
+          // '</div></div>';
+          '<div class="card" style="width:400px">' +
+            // '<img class="card-img-top" src="img_avatar1.png" alt="Card image">' +
+            // '<img src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" alt="Red dot" />' +
+            '<img src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2NQarv8HwAExAJ7a5i8agAAAABJRU5ErkJggg==" alt="Blue dot" />' +
+            '<div class="card-body">' +
+              '<h4 class="card-title">' +
+                (result.highlight.title? result.highlight.title : result._source.title) +
+              '</h4>' +
+              '<p class="card-text">' +
+                result._source.author +
+              '</p>' +
+              '<blockquote class="text-muted">' +
+                (result.highlight.content? result.highlight.content : result._source.content) +
+              ' ...' +
+              ' <em class="text-info">Score: ' + result._score +
+              '</em></blockquote>' +
+              '<a href="https://www.elastic.co' +
+                result._source.url +
+              '" class="btn btn-primary" target="_top">Leer</a>' +
+            '</div>' +
+          '</div>'
+        }
+        return html;
+      }
+
+      function callREST() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            var results = JSON.parse(this.responseText);
+            // var output = Mustache.render("{{hits.hits[0]._source.title}} by {{hits.hits[0]._source.author}}", results);
+            // document.getElementById("response").innerHTML = output;
+            // var html = '<div class="row"><div class="col-sm-8" style="background-color:lavender;">' +
+            // results.hits.hits[0].highlight.title +
+            // '</div><div class="col-sm-4" style="background-color:lavenderblush;">' +
+            // results.hits.hits[0]._source.author +
+            // '</div></div>'
+            var html = resultsToHTML(results);
+            document.getElementById("response").innerHTML = html;
+            // document.getElementById("response").innerHTML = "<i>" + results.hits.hits[0]._source.title + "</i> by " + results.hits.hits[0]._source.author;
+          }
+        };
+        xhttp.open("POST", "https://f530782362b345da858bb9f228462d2b.us-central1.gcp.cloud.es.io:9243/blogs/_search/template", true);
+        xhttp.setRequestHeader("Authorization", "Basic " + btoa("elastic:CINP4784iDbMQfcJpk7aCmPI"));
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        // xhttp.send();
+        // xmlhttp.send(JSON.stringify({ "email": "hello@user.com", "response": { "name": "Tester" } }));
+        xhttp.send(JSON.stringify(
+          {
+            "id": "busqueda_blogs",
+            "params": {
+              "terminos": document.getElementById("keyword").value
+            }
+          }
+        ))
+      }
+    </script>
+  </body>
+</html>
