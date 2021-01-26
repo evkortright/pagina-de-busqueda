@@ -53,13 +53,13 @@
             '<img src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2NQarv8HwAExAJ7a5i8agAAAABJRU5ErkJggg==" alt="Blue dot" />' +
             '<div class="card-body">' +
               '<h4 class="card-title">' +
-                (result.highlight.title? result.highlight.title : result._source.title) +
+                ((result.hightlight && result.highlight.title)? result.highlight.title : result._source.title) +
               '</h4>' +
               '<p class="card-text">' +
                 result._source.author +
               '</p>' +
               '<blockquote class="text-muted">' +
-                (result.highlight.content? result.highlight.content : result._source.content) +
+                ((result.highlight && result.highlight.content)? result.highlight.content : result._source.content.slice(0, 150)) +
               ' ...' +
               ' <em class="text-info">Score: ' + result._score +
               '</em></blockquote>' +
