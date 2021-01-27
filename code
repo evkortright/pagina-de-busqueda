@@ -1,0 +1,30 @@
+PUT productos/_doc/2
+{
+  "sku": 102,
+  "nombre": "armario",
+  "descripción": "Un armario útil para todo lo que quiera guardar por eternidad. Guarde una raqueta o un traje, sus tenis de uso diario, guarde otra raqueta, no hay límite a los usos de este armario.",
+  "precio": 800.95
+}
+
+PUT productos/_doc/3
+{
+  "sku": 403,
+  "nombre": "raqueta de tenis",
+  "descripción": "Raqueta de tenis aprobada por los mejores torneos. Fácil de guardar en cualquier armario. El gran tenista Raúl Ramírez en una ocasión usó una de estas raquetas de tenis (o una muy parecida) cuando jugó con uno de sus sobrinos.",
+  "precio": 450.95
+}
+
+PUT productos/_doc/4
+{
+  "sku": 111,
+  "nombre": "tenis de uso diario",
+  "descripción": "Camine con confianza en pavimento, lodo, alfombras, madera, y mas con estos tenis de alta tecnología y de alta calidad."
+}
+
+PUT productos/_doc/5
+{
+  "sku": 334,
+  "nombre": "pintura de color de rosa",
+  "descripción": "A diario es posible el uso de esta pintura. Su uso es muy conveniente aun cuando su uso sea diario."
+}
+
