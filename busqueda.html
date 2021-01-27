@@ -44,14 +44,7 @@
         }
         for (result of results.hits.hits) {
           html = html +
-          // '<div class="row"><div class="col-sm-8" style="background-color:lavender;">' +
-          // result.highlight.title +
-          // '</div><div class="col-sm-4" style="background-color:lavenderblush;">' +
-          // result._source.author +
-          // '</div></div>';
           '<div class="card" style="width:400px">' +
-            // '<img class="card-img-top" src="img_avatar1.png" alt="Card image">' +
-            // '<img src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" alt="Red dot" />' +
             '<img src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2NQarv8HwAExAJ7a5i8agAAAABJRU5ErkJggg==" alt="Blue dot" />' +
             '<div class="card-body">' +
             '<p class="card-text">' +
@@ -82,23 +75,13 @@
         xhttp.onreadystatechange = function () {
           if (this.readyState == 4 && this.status == 200) {
             var results = JSON.parse(this.responseText);
-            // var output = Mustache.render("{{hits.hits[0]._source.title}} by {{hits.hits[0]._source.author}}", results);
-            // document.getElementById("response").innerHTML = output;
-            // var html = '<div class="row"><div class="col-sm-8" style="background-color:lavender;">' +
-            // results.hits.hits[0].highlight.title +
-            // '</div><div class="col-sm-4" style="background-color:lavenderblush;">' +
-            // results.hits.hits[0]._source.author +
-            // '</div></div>'
             var html = resultsToHTML(results);
             document.getElementById("response").innerHTML = html;
-            // document.getElementById("response").innerHTML = "<i>" + results.hits.hits[0]._source.title + "</i> by " + results.hits.hits[0]._source.author;
           }
         };
         xhttp.open("POST", "https://f530782362b345da858bb9f228462d2b.us-central1.gcp.cloud.es.io:9243/blogs/_search/template", true);
         xhttp.setRequestHeader("Authorization", "Basic " + btoa("elastic:CINP4784iDbMQfcJpk7aCmPI"));
         xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        // xhttp.send();
-        // xmlhttp.send(JSON.stringify({ "email": "hello@user.com", "response": { "name": "Tester" } }));
         xhttp.send(JSON.stringify(
           {
             "id": "busqueda_blogs",
