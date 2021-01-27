@@ -64,7 +64,7 @@
                 result._source.author +
               '</p>' +
               '<blockquote class="text-muted">' +
-                ((result.highlight && result.highlight.content)? result.highlight.content.toString().substring(0, 150) : result._source.toString().content.substring(0, 150)) +
+                ((result.highlight && result.highlight.content)? result.highlight.content.toString().substring(0, 150) : result._source.content.toString().substring(0, 150)) +
               '...' +
               ' <em class="text-info">Score: ' + result._score +
               '</em></blockquote>' +
