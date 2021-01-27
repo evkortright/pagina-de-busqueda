@@ -28,3 +28,40 @@ PUT productos/_doc/5
   "descripción": "A diario es posible el uso de esta pintura. Su uso es muy conveniente aun cuando su uso sea diario."
 }
 
+ET productos/_search
+{
+  "query": {
+    "match": {
+      "descripción": {
+        "query": "tenis de uso diario",
+        "operator": "or"
+      }
+    }
+  }
+}
+
+GET productos/_search
+{
+  "query": {
+    "match": {
+      "descripción": {
+        "query": "tenis de uso diario",
+        "operator": "and"
+      }
+    }
+  }
+}
+
+GET productos/_search
+{
+  "query": {
+    "match": {
+      "descripción": {
+        "query": "tenis de uso diario",
+        "operator": "or",
+        "minimum_should_match": 2
+      }
+    }
+  }
+}
+
