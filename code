@@ -88,4 +88,27 @@ GET productos/_search
 }
 
 
+PUT _scripts/busqueda_blogs
+{
+  "script": {
+    "lang": "mustache",
+    "source": {
+      "query": {
+        "match": {
+          "content": "{{terminos}}"
+        }
+      }
+    }
+  }
+}
+
+
+GET blogs/_search/template
+{
+  "id": "busqueda_blogs",
+  "params": {
+    "terminos": "Logstash"
+  }
+}
+
 
