@@ -111,4 +111,18 @@ GET blogs/_search/template
   }
 }
 
+PUT _scripts/busqueda_blogs
+{
+  "script": {
+    "lang": "mustache",
+    "source": {
+      "query": {
+        "match": {
+          "content": "{{terminos}}"
+        }
+      }
+    }
+  }
+}
+
 
