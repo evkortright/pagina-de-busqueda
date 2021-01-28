@@ -65,3 +65,27 @@ GET productos/_search
   }
 }
 
+GET productos/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "descripción": "tenis de uso diario"
+          }
+        }
+      ],
+      "should": [
+        {
+          "match": {
+            "nombre": "tenis de uso diario"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+
