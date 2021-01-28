@@ -125,4 +125,58 @@ PUT _scripts/busqueda_blogs
   }
 }
 
+PUT _scripts/busqueda_blogs
+{
+  "script": {
+    "lang": "mustache",
+    "source": {
+      "query": {
+        "bool": {
+          "must": [
+            {
+              "match": {
+                "content": "{{terminos}}"
+              }
+            }
+          ],
+          "should": [
+            {
+              "match_phrase": {
+                "title": {
+                  "query": "{{terminos}}",
+                  "boost": 3
+                }
+              }
+            },
+            {
+              "match_phrase": {
+                "content": {
+                  "query": "{{terminos}}",
+                  "boost": 2
+                }
+              }
+            },
+            {
+              "match": {
+                "title": "{{terminos}}"
+              }
+            }
+          ]
+        }
+      },
+      "highlight": {
+        "fields": {
+          "title": {
+            "pre_tags" : ["<mark>"], "post_tags" : ["</mark>"],
+            "require_field_match": false
+          },
+          "content": {
+            "pre_tags" : ["<mark>"], "post_tags" : ["</mark>"],
+            "require_field_match": false
+          }
+        }
+      }
+    }
+  }
+}
 
